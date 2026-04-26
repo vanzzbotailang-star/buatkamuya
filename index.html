@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Romantic 3D Love ❤️</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{
+height:100vh;
+overflow:hidden;
+background: radial-gradient(circle,#ff9a9e,#fad0c4);
+perspective:1000px;
+}.container{ position:relative; z-index:2; text-align:center; top:50%; transform:translateY(-50%); color:white; padding:20px; }
+
+h1{ font-size:2.2em; animation:fadeIn 2s ease; }
+
+p{ margin-top:10px; font-size:1.1em; animation:fadeIn 3s ease; }
+
+.btn{ margin-top:20px; padding:12px 25px; border:none; border-radius:30px; background:#ff2d55; color:white; cursor:pointer; transition:0.3s; }
+
+.btn:hover{transform:scale(1.1);}
+
+.message{display:none;margin-top:15px;animation:fadeIn 1s ease;}
+
+#quoteBox{ margin-top:20px; font-style:italic; min-height:60px; animation:fadeIn 1s ease; }
+
+@keyframes fadeIn{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* ===== 3D HEART ===== */ .scene{ position:absolute; top:50%; left:50%; transform-style:preserve-3d; animation:rotate 8s infinite linear; z-index:1; }
+
+.heart3d{ position:absolute; width:80px; height:80px; background:red; clip-path: path("M40 70 C10 40, 0 20, 20 10 C35 0, 40 15, 40 15 C40 15, 45 0, 60 10 C80 20, 70 40, 40 70 Z"); box-shadow:0 0 25px red; }
+
+@keyframes rotate{ 0%{transform:translate(-50%,-50%) rotateY(0deg) rotateX(10deg);} 100%{transform:translate(-50%,-50%) rotateY(360deg) rotateX(10deg);} }
+
+.heart{ position:absolute; color:red; animation:fall linear forwards; }
+
+@keyframes fall{ 0%{transform:translateY(-10vh) scale(1);opacity:1;} 100%{transform:translateY(110vh) scale(0.5);opacity:0;} }
+
+canvas{position:absolute;top:0;left:0;z-index:0;} </style>
+
+</head>
+<body><canvas id="bg"></canvas>
+
+<div class="scene">
+  <div class="heart3d"></div>
+</div><div class="container">
+<h1 id="text"></h1>
+<p>Kamu adalah alasan aku selalu tersenyum ❤️</p><div id="quoteBox"></div><button class="btn" onclick="showLove()">Pesan Cinta 💌</button>
+
+<div class="message" id="msg">Aku cinta kamu selamanya ❤️</div>
+</div><script>
+const text="Untuk Kamu yang Aku Cinta ❤️";
+let i=0;
+function typing(){
+if(i<text.length){
+document.getElementById("text").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,80);
+}
+}
+typing();
+
+function showLove(){document.getElementById("msg").style.display="block";}
+
+// quotes romantic
+const quotes=[
+"Cinta bukan tentang seberapa lama bersama, tapi seberapa dalam rasa yang dijaga.",
+"Kamu adalah alasan aku percaya bahwa cinta itu nyata.",
+"Di antara jutaan orang, aku hanya memilih kamu.",
+"Aku tidak butuh dunia, aku hanya butuh kamu.",
+"Bersamamu, semua terasa lebih indah.",
+"Cinta kita mungkin sederhana, tapi rasanya luar biasa.",
+"Kamu adalah rumah tempat hatiku pulang.",
+"Setiap detik bersamamu adalah kebahagiaan.",
+"Aku jatuh cinta padamu setiap hari.",
+"Kamu adalah mimpi yang jadi nyata."
+];
+
+let q=0;
+function showQuotes(){
+const box=document.getElementById("quoteBox");
+box.innerHTML=quotes[q];
+q=(q+1)%quotes.length;
+}
+setInterval(showQuotes,3000);
+showQuotes();
+
+// hearts
+function createHeart(){
+const h=document.createElement("div");
+h.classList.add("heart");
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=Math.random()*20+10+"px";
+h.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+}
+setInterval(createHeart,300);
+
+// particles
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let p=[];
+for(let i=0;i<80;i++){
+ p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,s:Math.random()*2});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,255,255,0.5)";
+p.forEach(e=>{
+ctx.beginPath();ctx.arc(e.x,e.y,e.s,0,Math.PI*2);ctx.fill();e.y-=1;
+if(e.y<0)e.y=canvas.height;
+});
+requestAnimationFrame(draw);
+}
+draw();
+</script></body>
+</html>
